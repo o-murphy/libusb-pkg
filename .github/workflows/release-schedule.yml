@@ -1,0 +1,33 @@
+name: Check and Update Release
+
+# Run workflow on new releases, and allow manual runs.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"  # Runs weekly at midnight UTC on Sundays
+
+permissions:
+  contents: write
+
+jobs:
+  check-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Get latest release tag from pyocd/libusb-package
+        id: fetch_latest_tag
+        run: |
+          # Fetch the latest release tag from pyocd/libusb-package repository
+          LATEST_TAG=$(curl --silent "https://api.github.com/repos/pyocd/libusb-package/releases/latest" | jq -r .tag_name)
+          echo "LATEST_TAG=$LATEST_TAG"
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.LATEST_TAG }}  # Tag for the release
+          token: ${{ secrets.PAT }}  # GitHub token
+          generate_release_notes: true  # Automatically generate release notes if none provided
