@@ -37,6 +37,22 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Override package name in setup.cfg (Linux)
+        run: sed -i 's/^name = libusb-package$/name = '"$LIBUSB_PACKAGE_NAME"'/' setup.cfg
+        shell: bash
+        if: runner.os == 'Linux'
+
+      - name: Override package name in setup.cfg (macOS)
+        run: sed -i '' 's/^name = libusb-package$/name = '"$LIBUSB_PACKAGE_NAME"'/' setup.cfg
+        shell: bash
+        if: runner.os == 'macOS'
+
+      - name: Override package name in setup.cfg (Windows)
+        run: |
+          (Get-Content setup.cfg) -replace '^name = libusb-package$', "name = $env:LIBUSB_PACKAGE_NAME" | Set-Content setup.cfg
+        shell: pwsh
+        if: runner.os == 'Windows'
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
 
