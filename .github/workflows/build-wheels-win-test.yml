@@ -26,6 +26,12 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
       - uses: actions/setup-python@v5
         name: Install Python
         with:
@@ -69,38 +75,24 @@ jobs:
           name: wheelhouse-ubuntu-latest
           path: ./dist-ubuntu
 
-      - name: Download artifacts (Ubuntu ARM)
-        uses: actions/download-artifact@v4
-        with:
-          name: wheelhouse-ubuntu-24.04-arm
-          path: ./dist-ubuntu-24.04-arm
-
       - name: Download artifacts (Windows)
         uses: actions/download-artifact@v4
         with:
           name: wheelhouse-windows-latest
           path: ./wheelhouse-windows
 
-      - name: Download artifacts (macOS-13)
+      - name: Download artifacts (macOS)
         uses: actions/download-artifact@v4
         with:
-          name: wheelhouse-macos-13
-          path: ./wheelhouse-macos-13
-
-      - name: Download artifacts (macOS-14)
-        uses: actions/download-artifact@v4
-        with:
-          name: wheelhouse-macos-14
-          path: ./wheelhouse-macos-14
+          name: wheelhouse-macos-latest
+          path: ./wheelhouse-macos-latest
 
       - name: Combine artifacts
         run: |
           mkdir -p dist
           cp ./wheelhouse-ubuntu/* dist/ || true
-          cp ./wheelhouse-ubuntu-24.04-arm/* dist/ || true
           cp ./wheelhouse-windows/* dist/ || true
-          cp ./wheelhouse-macos-13/* dist/ || true
-          cp ./wheelhouse-macos-14/* dist/ || true
+          cp ./wheelhouse-macos-latest/* dist/ || true
 
       - name: List ./dist
         run: ls ./dist
