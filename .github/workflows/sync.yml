@@ -12,19 +12,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false  # Disable default token
+          persist-credentials: false
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-      - name: Sync upstream changes
-        run: |
-          git remote add upstream https://github.com/o-murphy/libusb-package.git
-          git fetch upstream
-          git checkout main  # Change if using another default branch
-          git merge upstream/main --no-edit
-          git push https://$PAT@github.com/o-murphy/libusb-package.git main
+      - name: Authenticate with GitHub CLI
+        run: gh auth status
         env:
-          PAT_TOKEN: ${{ secrets.PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync fork with upstream
+        run: |
+          gh repo sync $GITHUB_REPOSITORY --source pyocd/libusb-package --force
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
