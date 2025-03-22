@@ -12,14 +12,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: false  # Disable default token
 
-      - name: Sync upstream changes
+      - name: Configure Git
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPO.git
+
+      - name: Sync upstream changes
+        run: |
+          git remote add upstream https://github.com/o-murphy/libusb-package.git
           git fetch upstream
           git checkout main  # Change if using another default branch
-          git merge upstream/main
-          git push origin main
+          git merge upstream/main --no-edit
+          git push https://$PAT@github.com/YOUR_GITHUB_USERNAME/YOUR_FORKED_REPO.git main
+        env:
+          PAT_TOKEN: ${{ secrets.PAT }}
