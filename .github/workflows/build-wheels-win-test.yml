@@ -26,10 +26,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          repository: 'pyocd/libusb-package'
-          ref: 'main'
-          submodules: 'recursive'
 
       # - name: Set up QEMU
       #   if: runner.os == 'Linux'
