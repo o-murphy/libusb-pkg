@@ -31,11 +31,11 @@ jobs:
           ref: 'main'
           submodules: 'recursive'
 
-      - name: Set up QEMU
-        if: runner.os == 'Linux'
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
+      # - name: Set up QEMU
+      #   if: runner.os == 'Linux'
+      #   uses: docker/setup-qemu-action@v3
+      #   with:
+      #     platforms: arm64
 
       - uses: actions/setup-python@v5
         name: Install Python
@@ -73,11 +73,11 @@ jobs:
       contents: write
 
     steps:
-      - name: Download artifacts (Ubuntu)
-        uses: actions/download-artifact@v4
-        with:
-          name: wheelhouse-ubuntu-latest
-          path: ./dist-ubuntu
+      # - name: Download artifacts (Ubuntu)
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: wheelhouse-ubuntu-latest
+      #     path: ./dist-ubuntu
 
       - name: Download artifacts (Windows)
         uses: actions/download-artifact@v4
