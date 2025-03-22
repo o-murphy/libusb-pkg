@@ -25,6 +25,6 @@ jobs:
           git fetch upstream
           git checkout main  # Change if using another default branch
           git merge upstream/main --no-edit
-          git push https://$PAT@github.com/YOUR_GITHUB_USERNAME/YOUR_FORKED_REPO.git main
+          git push https://$PAT@github.com/o-murphy/libusb-package.git main
         env:
           PAT_TOKEN: ${{ secrets.PAT }}
