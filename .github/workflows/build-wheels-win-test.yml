@@ -40,31 +40,21 @@ jobs:
         with:
           python-version: '3.9'
 
-      # Override package name in setup.cfg and add local_scheme in pyproject.toml for Linux
-      - name: Override package name and add local_scheme to pyproject.toml (Linux)
-        run: |
-          sed -i 's/^name = libusb-package$/name = '"$LIBUSB_PACKAGE_NAME"'/' setup.cfg
-          sed -i '/\[tool.setuptools_scm\]/a local_scheme = "no-local-version"' pyproject.toml
-        shell: bash
-        if: runner.os == 'Linux'
+      # - name: Override package name in setup.cfg (Linux)
+      #   run: sed -i 's/^name = libusb-package$/name = '"$LIBUSB_PACKAGE_NAME"'/' setup.cfg
+      #   shell: bash
+      #   if: runner.os == 'Linux'
 
-      # Override package name in setup.cfg and add local_scheme in pyproject.toml for macOS
-      - name: Override package name and add local_scheme to pyproject.toml (macOS)
-        run: |
-          sed -i '' 's/^name = libusb-package$/name = '"$LIBUSB_PACKAGE_NAME"'/' setup.cfg
-          sed -i '' '/\[tool.setuptools_scm\]/a \
-          local_scheme = "no-local-version"' pyproject.toml
-        shell: bash
-        if: runner.os == 'macOS'
+      # - name: Override package name in setup.cfg (macOS)
+      #   run: sed -i '' 's/^name = libusb-package$/name = '"$LIBUSB_PACKAGE_NAME"'/' setup.cfg
+      #   shell: bash
+      #   if: runner.os == 'macOS'
 
-      # Override package name in setup.cfg and add local_scheme in pyproject.toml for Windows
-      - name: Override package name and add local_scheme to pyproject.toml (Windows)
-        run: |
-          (Get-Content setup.cfg) -replace '^name = libusb-package$', "name = $env:LIBUSB_PACKAGE_NAME" | Set-Content setup.cfg
-          (Get-Content pyproject.toml) -replace '(\[tool.setuptools_scm\])', '$1`nlocal_scheme = "no-local-version"' | Set-Content pyproject.toml
-        shell: pwsh
-        if: runner.os == 'Windows'
-    
+      # - name: Override package name in setup.cfg (Windows)
+      #   run: |
+      #     (Get-Content setup.cfg) -replace '^name = libusb-package$', "name = $env:LIBUSB_PACKAGE_NAME" | Set-Content setup.cfg
+      #   shell: pwsh
+      #   if: runner.os == 'Windows'
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
