@@ -52,7 +52,8 @@ jobs:
       - name: Override package name and add local_scheme to pyproject.toml (macOS)
         run: |
           sed -i '' 's/^name = libusb-package$/name = '"$LIBUSB_PACKAGE_NAME"'/' setup.cfg
-          sed -i '' '/\[tool.setuptools_scm\]/a local_scheme = "no-local-version"' pyproject.toml
+          sed -i '' '/\[tool.setuptools_scm\]/a \
+          local_scheme = "no-local-version"' pyproject.toml
         shell: bash
         if: runner.os == 'macOS'
 
@@ -63,6 +64,7 @@ jobs:
           (Get-Content pyproject.toml) -replace '(\[tool.setuptools_scm\])', '$1`nlocal_scheme = "no-local-version"' | Set-Content pyproject.toml
         shell: pwsh
         if: runner.os == 'Windows'
+    
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
