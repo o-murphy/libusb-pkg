@@ -56,7 +56,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: wheelhouse-ubuntu-latest
-          path: ./dist-ubuntu
+          path: ./wheelhouse-ubuntu
 
       - name: Download artifacts (Windows)
         uses: actions/download-artifact@v4
