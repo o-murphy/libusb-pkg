@@ -1,7 +1,5 @@
 [![license]][LGPL-3]
 [![pypi]][PyPiUrl]
-[![downloads]][pepy]
-[![downloads/month]][pepy]
 [![versions]][sources]
 
 [sources]:
@@ -14,16 +12,10 @@ https://opensource.org/licenses/LGPL-3.0-only
 https://img.shields.io/pypi/v/libusb-pkg?style=flat-square&logo=pypi
 [PyPiUrl]:
 https://pypi.org/project/libusb-pkg/
-[downloads]:
-https://img.shields.io/pepy/dt/libusb-pkg?style=flat-square
-[downloads/month]:
-https://static.pepy.tech/personalized-badge/libusb-pkg?style=flat-square&period=month&units=abbreviation&left_color=grey&right_color=blue&left_text=downloads%2Fmonth
-[pepy]:
-https://pepy.tech/project/libusb-pkg
 [versions]:
 https://img.shields.io/pypi/pyversions/libusb-pkg?style=flat-square
 
-# Automatic build wheels for latest release
+# Mirror repo with automatic wheels deployment for latest release
 > [!IMPORTANT]
 > Use `libusb-pkg` instead of `libusb-package` for installation from pypi 
 

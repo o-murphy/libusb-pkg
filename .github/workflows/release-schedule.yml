@@ -1,6 +1,7 @@
 name: Check and Create Release
 
-# Run workflow on new releases, and allow manual runs.
+# Creates mirror release if origin have it 
+# Run workflow on schedule, and allow manual runs.
 on:
   workflow_dispatch:
   schedule:
