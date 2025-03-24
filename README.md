@@ -1,3 +1,32 @@
+[![license]][LGPL-3]
+[![pypi]][PyPiUrl]
+[![downloads]][pepy]
+[![downloads/month]][pepy]
+[![versions]][sources]
+
+[sources]:
+https://github.com/o-murphy/libusb-pkg
+[license]:
+https://img.shields.io/github/license/o-murphy/libusb-pkg?style=flat-square
+[LGPL-3]:
+https://opensource.org/licenses/LGPL-3.0-only
+[pypi]:
+https://img.shields.io/pypi/v/libusb-pkg?style=flat-square&logo=pypi
+[PyPiUrl]:
+https://pypi.org/project/libusb-pkg/
+[downloads]:
+https://img.shields.io/pepy/dt/libusb-pkg?style=flat-square
+[downloads/month]:
+https://static.pepy.tech/personalized-badge/libusb-pkg?style=flat-square&period=month&units=abbreviation&left_color=grey&right_color=blue&left_text=downloads%2Fmonth
+[pepy]:
+https://pepy.tech/project/libusb-pkg
+[versions]:
+https://img.shields.io/pypi/pyversions/libusb-pkg?style=flat-square
+
+# Automatic build wheels for latest release
+> [!IMPORTANT]
+> Use `libusb-pkg` instead of `libusb-package` for installation from pypi 
+
 # Container package for libusb
 
 This Python package functions as an installation vehicle for libusb shared libraries, to
