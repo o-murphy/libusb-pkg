@@ -7,9 +7,6 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-license-files = []
-
 [tool.setuptools_scm]
 write_to = "src/libusb_package/_version.py"
 fallback_version = "1.0.0.0"
