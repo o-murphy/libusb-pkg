@@ -15,9 +15,19 @@ https://pypi.org/project/libusb-pkg/
 [versions]:
 https://img.shields.io/pypi/pyversions/libusb-pkg?style=flat-square
 
-# Mirror repo with automatic wheels deployment for latest release
+# Mirror of the `libusb-package` repository with automatic wheel deployment for the latest release
+
 > [!IMPORTANT]
 > Use `libusb-pkg` instead of `libusb-package` for installation from pypi 
+
+> [!TIP]
+> If you need python>=3.12 support you can specify enviroment specific dependencies
+> ```toml
+> dependencies = [
+>     "libusb-package; python_version < '3.12'",
+>     "libusb-pkg; python_version >= '3.12'"
+> ]
+> ```
 
 # Container package for libusb
 
