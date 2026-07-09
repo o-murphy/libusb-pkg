@@ -1,10 +1,21 @@
 name: Build and deploy wheels
 
-# Run workflow on new releases, and allow manual runs.
+# Run workflow on new releases, and allow manual or reusable-workflow runs.
 on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build (defaults to the triggering ref)"
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      tag:
+        description: "Release tag to build"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -22,17 +33,20 @@ jobs:
           - windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
+          ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
+          fetch-tags: true
           submodules: "recursive"
 
       - name: Set up QEMU
         if: runner.os == 'Linux'
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
         with:
           platforms: arm64
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         name: Install Python
         with:
           python-version: "3.9"
@@ -40,7 +54,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: wheelhouse-${{ matrix.os }}
           path: ./wheelhouse/*.whl
@@ -53,19 +67,19 @@ jobs:
 
     steps:
       - name: Download artifacts (Ubuntu)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: wheelhouse-ubuntu-latest
           path: ./wheelhouse-ubuntu
 
       - name: Download artifacts (Windows)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: wheelhouse-windows-latest
           path: ./wheelhouse-windows
 
       - name: Download artifacts (macOS)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: wheelhouse-macos-latest
           path: ./wheelhouse-macos
@@ -81,7 +95,7 @@ jobs:
         run: ls ./dist
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: ./dist
@@ -96,20 +110,21 @@ jobs:
 
     steps:
       - name: Download artifacts (Ubuntu)
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: dist
           path: ./dist
 
       - name: Upload Release Assets
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v3
+        if: ${{ inputs.tag != '' || startsWith(github.ref, 'refs/tags/') }}
         with:
+          tag_name: ${{ inputs.tag }}
           token: ${{ secrets.GITHUB_TOKEN }}
           files: ./dist/*
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: ${{ inputs.tag != '' || startsWith(github.ref, 'refs/tags/') }}
         with:
           skip-existing: true
