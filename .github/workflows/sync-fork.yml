@@ -2,8 +2,11 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:  # Allows manual triggering
+    - cron: "0 0 * * *" # Runs daily at midnight UTC
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  contents: write
 
 jobs:
   sync:
@@ -12,15 +15,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
-
-      - name: Authenticate with GitHub CLI
-        run: gh auth status
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Sync fork with upstream
         run: |
-          gh repo sync $GITHUB_REPOSITORY --source pyocd/libusb-package --force
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/pyocd/libusb-package.git
+          git fetch upstream main
+          git merge upstream/main --ff-only
+          git push origin main

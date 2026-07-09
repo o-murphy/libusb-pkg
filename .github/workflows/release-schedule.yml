@@ -1,11 +1,11 @@
 name: Check and Create Release
 
-# Creates mirror release if origin have it 
+# Creates mirror release if origin have it
 # Run workflow on schedule, and allow manual runs.
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 1 * * *"  # Runs daily at 1:00 AM UTC
+    - cron: "0 1 * * *" # Runs daily at 1:00 AM UTC
 
 permissions:
   contents: write
@@ -29,6 +29,6 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.LATEST_TAG }}  # Tag for the release
-          token: ${{ secrets.PAT }}  # GitHub token
-          generate_release_notes: true  # Automatically generate release notes if none provided
+          tag_name: ${{ env.LATEST_TAG }} # Tag for the release
+          token: ${{ secrets.GITHUB_TOKEN }} # GitHub token
+          generate_release_notes: true # Automatically generate release notes if none provided
