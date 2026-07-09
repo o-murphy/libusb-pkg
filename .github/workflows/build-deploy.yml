@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'recursive'
+          submodules: "recursive"
 
       - name: Set up QEMU
         if: runner.os == 'Linux'
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-python@v5
         name: Install Python
         with:
-          python-version: '3.9'
+          python-version: "3.9"
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
@@ -105,7 +105,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           files: ./dist/*
 
       - name: Publish package distributions to PyPI
